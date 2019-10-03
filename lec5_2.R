@@ -1,0 +1,22 @@
+
+bill = read.table("./Hypothesis_testing/Billionaires_1992/Billionaires_1992_data", header=T, sep="")
+bill$age[bill$age == "*"] = NA
+print(dim(bill))
+bill = na.omit(bill)
+print(dim(bill))
+print(summary(bill))
+x1 = as.numeric(bill$age[bill$region == "U"])
+x2 = as.numeric(bill$age[bill$region != "U"])
+par(mfrow=c(2,1))
+hist(as.numeric(x1), breaks=10)
+hist(as.numeric(x2), breaks=20)
+m = median(c(x1, x2))
+f11 = sum(x1 > m)
+f12 = sum(x2 > m)
+f21 = sum(x1 <= m)
+f22 = sum(x2 <= m)
+table = matrix(c(f11,f12,f21,f22), nrow=2, ncol=2)
+print(chisq.test(table))
+print(wilcox.test(x1,x2, alternative="two.sided", paired=FALSE, exact=TRUE, correct=FALSE))
+t.test(x1, x2, alternative = "greater", paired=FALSE, var.equal = FALSE)
+

@@ -6,3 +6,5 @@ print(summary(albuquerque))
 #H0 EX = EY
 #H1 EX < EY
 fligner.test(PRICE~COR, data=albuquerque)
+t.test(albuquerque$PRICE[albuquerque$COR==0], albuquerque$PRICE[albuquerque$COR==1],
+       alternative = "greater", paired=FALSE, var.equal = TRUE)
