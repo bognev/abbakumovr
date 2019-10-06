@@ -14,5 +14,5 @@ wines_res = rpart(Desired1.3. ~ ., data=wines[-test_num,], method="class", contr
 print(wines_res, digits=2)
 library(rpart.plot)
 rpart.plot(wines_res, type=1)
-print(table(wines[,1], predict(wines_res, wines[, -1], type="class")))
-print(table(wines[,1]))
+print(table(wines[,14], predict(wines_res, wines[, -14], type="class")))
+print(table(wines[,14]))
