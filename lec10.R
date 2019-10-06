@@ -1,0 +1,45 @@
+credits = read.table("/home/bognev/abbakumovr/Credit_ru_1.csv", header=T, sep=";")
+names(credits) = c("credit", "class", "salary", "age", "credit_card")
+print(names(credits))
+print(dim(credits))
+print(tail(credits))  
+for(i in 1:ncol(credits)){
+  print(class(credits[,i]))
+}
+library(rpart)
+credit_res = rpart(credit ~ class + salary + age + credit_card, data=credits, method="class", 
+                   control = rpart.control(minsplot=10, minbucket=5, maxdepth=6))
+print(credit_res, digits=2)
+print(summary(credit_res))
+plot(credit_res)
+install.packages("rpart.plot")
+library(rpart.plot)
+rpart.plot(credit_res, type=1)
+rpart.plot(credit_res, type=2, extra = 109)
+rpart.plot(credit_res, type=3)
+rpart.plot(credit_res, type=4)
+predict(credit_res, credits[,-1])
+print(table(credits[,1], predict(credit_res, credits[, -1], type="class")))
+print(table(credits[,1]))
+
+
+credits2 = data.frame(as.factor(credits[,1]), as.factor(credits[,2]), as.factor(credits[,3]),
+                      as.factor(credits[,4]), as.factor(credits[,5]))
+names(credits2) = c("credit", "class", "salary", "age", "credit_card")
+levels(credits2[,1]) = c("Low", "High")
+levels(credits2[,2]) = c("Management", "Professional", "Clerical", "Skilled Manual", "Unskilled")
+levels(credits2[,3]) = c("Every_week", "Every_month")
+levels(credits2[,4]) = c("Young", "Middle", "Old")
+levels(credits2[,5]) = c("Yes", "No")
+credit2_res = rpart(credit ~ class + salary + age + credit_card, data=credits2, method="class", 
+        control = rpart.control(minsplot=10, minbucket=5, maxdepth=6))
+print(credit2_res, digits=2)
+print(summary(credit2_res))
+plot(credit2_res)
+library(rpart.plot)
+rpart.plot(credit2_res, type=1)
+rpart.plot(credit2_res, type=2, extra = 109)
+rpart.plot(credit2_res, type=3)
+rpart.plot(credit2_res, type=4)
+predict(credit2_res, credits2[,-1])
+
