@@ -1,6 +1,6 @@
-fish = table("/home/zabolotsky/abbakumov_r/factor_2015/stickleback/stickleback.csv", header=T, sep=";", dec=",")
+data(swiss)
 #View(fish)
-x = fish[,1:7]
+x = swiss
 print(names(x))
 print(dim(x))
 print(summary(x))
@@ -8,8 +8,14 @@ for(i in 1:ncol(x)){
   print(sd(x[,i]), 3)
 }
 print(round(cor(x), 2))
-print(cor.test(x[,1], x[,3], alternative="two.sided", method="pearson", exact=NULL, conf.level = 0.95))
-plot(x)
+#print(cor.test(x[,1], x[,3], alternative="two.sided", method="pearson", exact=NULL, conf.level = 0.95))
+#plot(x)
 stick_fa = factanal(x, factor=2, method="mls", scores="regression")
 print(stick_fa)
+print(stick_fa$converged)
+print(stick_fa[2])
+print(stick_fa[3])
+print(stick_fa[4])
 print(stick_fa$scores)
+z = stick_fa$correlation - stick_fa$loadings %*% t(stick_fa$loadings) - diag(stick_fa$uniquenesses)
+print(round(z), 3)
